@@ -6,7 +6,7 @@ return {
   },
   config = function()
     local null_ls = require 'null-ls'
-    local formatting = null_ls.builtins.formatting -- to setup formatters
+    local formatting = null_ls.builtins.formatting   -- to setup formatters
     local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
     -- list of formatters & linters for mason to install
@@ -15,8 +15,8 @@ return {
         'prettier', -- ts/js formatter
         'eslint_d', -- ts/js linter
         'shfmt',
-        'stylua', -- lua formatter; Already installed via Mason
-        'ruff', -- Python linter and formatter; Already installed via Mason
+        'stylua',   -- lua formatter; Already installed via Mason
+        'ruff',     -- Python linter and formatter; Already installed via Mason
       },
       -- auto-install configured formatters & linters (with null-ls)
       automatic_installation = true,
