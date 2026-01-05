@@ -1,27 +1,34 @@
 return {
-    'shaunsingh/nord.nvim',
-    lazy = false, 
-    priority = 1000,
-    config = function()
-        vim.g.nord_contrast = true
-        vim.g.nord_borders = false
-        vim.g.nord_disable_background = true
-        vim.g.nord_italic = false
-        vim.g.nord_uniform_diff_background = true
-        vim.g.nord_bold = false
+  'folke/tokyonight.nvim',
+  lazy = false,
+  priority = 1000,
+  opts = {
+    styles = {
+      functions = {},
+    },
+    on_colors = function(colors)
+      colors.hint = colors.orange
+      colors.error = '#ff0000'
+    end,
+    day_brightness = 0.24, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+  },
+  config = function(_, opts)
+    require('tokyonight').setup(opts)
+    vim.cmd [[colorscheme tokyonight-day]]
+    local isDayTheme = true
+    local changedStyle = 'day'
 
-        require('nord').set()
+    local toggleThemeMode = function()
+      isDayTheme = not isDayTheme
+      if isDayTheme == true then
+        changedStyle = 'tokyonight-day'
+      else
+        changedStyle = 'tokyonight-storm'
+      end
 
-        local bg_transparent = true
-
-        local toggle_transparency = function ()
-            
-            bg_transparent = not bg_transparent
-           vim.g.nord_disable_background = bg_transparent 
-           vim.cmd [[colorscheme nord]]
-
-        end
-
-        vim.keymap.set('n', '<leader>bg', toggle_transparency, { noremap = true, silent = true})
+      vim.cmd('colorscheme ' .. changedStyle)
     end
-  }
+
+    vim.keymap.set('n', '<leader>tm', toggleThemeMode, { noremap = true, silent = true })
+  end,
+}
