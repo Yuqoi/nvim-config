@@ -1,4 +1,4 @@
- return {
+return {
   'nvim-neo-tree/neo-tree.nvim',
   event = 'VeryLazy',
   branch = 'v3.x',
@@ -309,8 +309,6 @@
     }
 
     vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
-    vim.keymap.set('n', "<leader>e", '<cmd>:Neotree toggle position=left<CR>', opts)
+    vim.keymap.set('n', '<leader>e', '<cmd>:Neotree toggle position=left<CR>', opts)
   end,
 }
-
-
