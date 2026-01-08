@@ -30,4 +30,5 @@ require('lazy').setup {
   require 'plugins.welcome',
   require 'plugins.indent',
   require 'plugins.misc',
+  require 'plugins.noice',
 }

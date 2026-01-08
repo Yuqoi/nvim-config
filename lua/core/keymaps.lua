@@ -84,3 +84,5 @@ vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, 
 -- terminal open and close
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'normal mode inside terminal', noremap = true, silent = false })
 vim.keymap.set('n', '<leader>tl', ':terminal<CR>', { noremap = true, silent = false })
+
+vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>', { noremap = true, silent = true })
