@@ -45,7 +45,7 @@ vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
 vim.keymap.set('n', '<leader>tn', ':tabn<CR>', opts) --  go to next tab
 vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
 
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<SR>', opts)
+vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', '>', '>gv', opts)
@@ -82,5 +82,5 @@ vim.keymap.set('n', '<leader>sm', ':mksession! .session.vim<CR>', { noremap = tr
 vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
 
 -- terminal open and close
-vim.keymap.set('t', '<Esc>', '[[<C-\\><C-n]]', { desc = 'normal mode inside terminal', noremap = true, silent = false })
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'normal mode inside terminal', noremap = true, silent = false })
 vim.keymap.set('n', '<leader>tl', ':terminal<CR>', { noremap = true, silent = false })

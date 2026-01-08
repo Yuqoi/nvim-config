@@ -54,7 +54,7 @@ return {
           enable_character_fade = true,
         },
         indent = {
-          indent_size = 2,
+          indent_size = 1,
           padding = 1, -- extra padding on left hand side
           -- indent guides
           with_markers = true,
@@ -127,7 +127,7 @@ return {
       commands = {},
       window = {
         position = 'left',
-        width = 40,
+        width = 22,
         mapping_options = {
           noremap = true,
           nowait = true,
