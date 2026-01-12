@@ -17,7 +17,16 @@ return {
     'mason-org/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-    { 'j-hui/fidget.nvim', opts = {} },
+    {
+      'j-hui/fidget.nvim',
+      opts = {
+        notification = {
+          windows = {
+            winblend = 0,
+          },
+        },
+      },
+    },
     require 'plugins.languages.java_setup',
     require 'plugins.venv_selector',
     'hrsh7th/nvim-cmp',
@@ -102,26 +111,13 @@ return {
         --  the definition of its *type*, not where it was *defined*.
         map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
-        -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-        ---@param client vim.lsp.Client
-        ---@param method vim.lsp.protocol.Method
-        ---@param bufnr? integer some lsp support methods only in specific files
-        ---@return boolean
-        local function client_supports_method(client, method, bufnr)
-          if vim.fn.has 'nvim-0.11' == 1 then
-            return client:supports_method(method, bufnr)
-          else
-            return client.supports_method(method, { bufnr = bufnr })
-          end
-        end
-
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
         --    See `:help CursorHold` for information about when this is executed
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
@@ -148,7 +144,7 @@ return {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
           map('<leader>th', function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
@@ -209,18 +205,6 @@ return {
 
     local servers = {
       ts_ls = {},
-      pyright = {
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              diagnosticMode = 'openFilesOnly',
-            },
-          },
-        },
-      },
-      ruff = {},
       jsonls = {},
       sqlls = {},
       terraformls = {},
@@ -229,8 +213,22 @@ return {
       dockerls = {},
       docker_compose_language_service = {},
       tailwindcss = {},
+      -- ruff = {},
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              useLibraryCodeForTypes = true,
+              diagnosticSeverityOverrides = {
+                reportUnusedVariable = 'warning',
+              },
+              typeCheckingMode = 'off', -- Set type-checking mode to off
+              diagnosticMode = 'off', -- D
+            },
+          },
+        },
+      },
       html = { filetypes = { 'html', 'twig', 'hbs' } },
-
       lua_ls = {
         settings = {
           Lua = {
@@ -253,16 +251,9 @@ return {
     }
 
     local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua code
-    })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     for server, cfg in pairs(servers) do
-      -- For each LSP server (cfg), we merge:
-      -- 1. A fresh empty table (to avoid mutating capabilities globally)
-      -- 2. Your capabilities object with Neovim + cmp features
-      -- 3. Any server-specific cfg.capabilities if defined in `servers`
       cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, cfg.capabilities or {})
 
       vim.lsp.config(server, cfg)

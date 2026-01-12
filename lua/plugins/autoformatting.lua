@@ -6,7 +6,7 @@ return {
   },
   config = function()
     local null_ls = require 'null-ls'
-    local formatting = null_ls.builtins.formatting -- to setup formatters
+    local formatting = null_ls.builtins.formatting   -- to setup formatters
     local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
     -- list of formatters & linters for mason to install
@@ -15,19 +15,22 @@ return {
         'prettier', -- ts/js formatter
         'eslint_d', -- ts/js linter
         'shfmt',
-        'stylua', -- lua formatter; Already installed via Mason
-        'ruff', -- Python linter and formatter; Already installed via Mason
+        'stylua',   -- lua formatter; Already installed via Mason
+        'ruff',     -- Python linter and formatter; Already installed via Mason
       },
       -- auto-install configured formatters & linters (with null-ls)
       automatic_installation = true,
     }
 
     local sources = {
-      formatting.prettier,
+      formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
-      require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
+      require 'none-ls.diagnostics.ruff',
+
+      -- Ruff as FORMATTER
+      require 'none-ls.formatting.ruff',
       require 'none-ls.formatting.ruff_format',
     }
 
@@ -43,14 +46,7 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              -- vim.lsp.buf.format { async = false }
-              vim.lsp.buf.format {
-                bufnr = bufnr,
-                async = false,
-                filter = function(c)
-                  return c.name == 'null-ls'
-                end,
-              }
+              vim.lsp.buf.format { async = false }
             end,
           })
         end

@@ -20,41 +20,7 @@ return {
       jdk = {
         auto_install = false,
       },
-      jdtls = {
-        settings = {
-          java = {
-            configuration = {
-              runtimes = {
-                {
-                  name = 'JavaSE-22',
-                  path = 'C:\\Program Files\\Java\\jdk-22',
-                  default = true,
-                },
-              },
-              updateBuildConfiguration = 'automatic',
-            },
-            -- Eclipse settings
-            eclipse = {
-              downloadSources = true,
-            },
-            maven = {
-              downloadSources = true,
-            },
-            implementationsCodeLens = {
-              enabled = true,
-            },
-            referencesCodeLens = {
-              enabled = true,
-            },
-            references = {
-              includeDecompiledSources = true,
-            },
-            format = {
-              enabled = true,
-            },
-          },
-        },
-      },
+      jdtls = {},
 
       -- Extensions
       lombok = {
@@ -87,6 +53,42 @@ return {
         show_location = false,
       },
     }
+
     vim.lsp.enable 'jdtls'
+    vim.lsp.config('jdtls', {
+      settings = {
+        java = {
+          configuration = {
+            runtimes = {
+              {
+                name = 'JavaSE-22',
+                path = 'C:\\PROGRA~1\\Java\\jdk-22',
+                default = true,
+              },
+            },
+            updateBuildConfiguration = 'automatic',
+          },
+          -- Eclipse settings
+          eclipse = {
+            downloadSources = true,
+          },
+          maven = {
+            downloadSources = true,
+          },
+          implementationsCodeLens = {
+            enabled = true,
+          },
+          referencesCodeLens = {
+            enabled = true,
+          },
+          references = {
+            includeDecompiledSources = true,
+          },
+          format = {
+            enabled = true,
+          },
+        },
+      },
+    })
   end,
 }
