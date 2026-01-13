@@ -238,6 +238,12 @@ return {
       },
     }
     local ensure_installed = vim.tbl_keys(servers or {})
+    vim.list_extend(ensure_installed, {
+      'prettier', -- JS/TS/JSON/HTML/CSS/Markdown formatter
+      'stylua', -- Lua formatter
+      'ruff', -- Python formatter and linter
+      'eslint_d',
+    })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     for server, cfg in pairs(servers) do

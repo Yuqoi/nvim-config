@@ -31,4 +31,5 @@ require('lazy').setup {
   require 'plugins.indent',
   require 'plugins.misc',
   require 'plugins.noice',
+  require 'plugins.markdown_preview',
 }

@@ -3,7 +3,16 @@ return {
   opts = {
     formatters_by_ft = {
       lua = { 'stylua' },
-      -- Conform will run multiple formatters sequentially
+      javascript = { 'prettier' },
+      typescript = { 'prettier' },
+      javascriptreact = { 'prettier' },
+      typescriptreact = { 'prettier' },
+      json = { 'prettier' },
+      html = { 'prettier' },
+      css = { 'prettier' },
+      scss = { 'prettier' },
+      markdown = { 'prettier' },
+      yaml = { 'prettier' }, -- Conform will run multiple formatters sequentially
       -- You can also customize some of the format options for the filetype
       python = { 'ruff_format', 'ruff' },
       -- Use the "*" filetype to run formatters on all filetypes.
@@ -11,6 +20,9 @@ return {
       -- Use the "_" filetype to run formatters on filetypes that don't
       -- have other formatters configured.
       ['_'] = { 'trim_whitespace' },
+
+      sh = { 'shfmt' },
+      bash = { 'shfmt' },
     },
 
     default_format_opts = {
