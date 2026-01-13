@@ -69,6 +69,8 @@ return {
         --
         -- In this case, we create a function that lets us more easily define mappings specific
         -- for LSP related items. It sets the mode, buffer and description for us each time.
+        --
+
         local map = function(keys, func, desc, mode)
           mode = mode or 'n'
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -139,7 +141,6 @@ return {
             end,
           })
         end
-
         -- The following code creates a keymap to toggle inlay hints in your
         -- code, if the language server you are using supports them
         --
@@ -213,21 +214,8 @@ return {
       dockerls = {},
       docker_compose_language_service = {},
       tailwindcss = {},
-      -- ruff = {},
-      pyright = {
-        settings = {
-          python = {
-            analysis = {
-              useLibraryCodeForTypes = true,
-              diagnosticSeverityOverrides = {
-                reportUnusedVariable = 'warning',
-              },
-              typeCheckingMode = 'off', -- Set type-checking mode to off
-              diagnosticMode = 'off', -- D
-            },
-          },
-        },
-      },
+      ruff = {},
+      pyright = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       lua_ls = {
         settings = {
@@ -249,7 +237,6 @@ return {
         },
       },
     }
-
     local ensure_installed = vim.tbl_keys(servers or {})
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
