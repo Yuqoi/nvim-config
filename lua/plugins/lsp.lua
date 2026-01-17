@@ -215,7 +215,22 @@ return {
       docker_compose_language_service = {},
       tailwindcss = {},
       ruff = {},
-      pyright = {},
+      pylsp = {
+        settings = {
+          pylsp = {
+            plugins = {
+              pyflakes = { enabled = false },
+              pycodestyle = { enabled = false },
+              autopep8 = { enabled = false },
+              yapf = { enabled = false },
+              mccabe = { enabled = false },
+              pylsp_mypy = { enabled = false },
+              pylsp_black = { enabled = false },
+              pylsp_isort = { enabled = false },
+            },
+          },
+        },
+      },
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       lua_ls = {
         settings = {
