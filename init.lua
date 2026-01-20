@@ -32,6 +32,5 @@ require('lazy').setup {
   require 'plugins.misc',
   require 'plugins.noice',
   require 'plugins.markdown_preview',
-  require 'plugins.languages.ts-comments',
   require 'plugins.linting',
 }
