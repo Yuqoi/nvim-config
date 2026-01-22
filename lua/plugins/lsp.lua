@@ -14,7 +14,16 @@ return {
         },
       },
     },
-    'mason-org/mason-lspconfig.nvim',
+    {
+      'mason-org/mason-lspconfig.nvim',
+      opts = {
+        automatic_enable = {
+          exclude = {
+            'jdtls',
+          },
+        },
+      },
+    },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     {
@@ -27,10 +36,10 @@ return {
         },
       },
     },
-    require 'plugins.languages.java_setup',
     require 'plugins.venv_selector',
     'hrsh7th/nvim-cmp',
   },
+
   config = function()
     -- Brief aside: **What is LSP?**
     --
@@ -230,6 +239,31 @@ return {
             },
           },
         },
+      },
+      clangd = {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--log=verbose',
+          '--completion-style=detailed',
+          '--query-driver=C:\\PROGRA~1\\mingw64\\bin\\*',
+        },
+        init_options = {
+          fallbackFlags = { '-std=c23' },
+        },
+        on_attach = function(client, bufnr)
+          print('clangd attached to buffer ' .. bufnr)
+
+          local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+          end
+
+          map('n', 'gr', vim.lsp.buf.references, 'References')
+          map('n', '<leader>cch', '<cmd>ClangdSwitchSourceHeader<cr>', 'Switch source/header')
+          map('n', '<leader>cci', '<cmd>ClangdShowSymbolInfo<cr>', 'Symbol information')
+          map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename (clangd)')
+        end,
       },
       html = { filetypes = { 'html', 'twig', 'hbs' } },
       lua_ls = {

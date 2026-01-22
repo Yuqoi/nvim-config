@@ -33,4 +33,5 @@ require('lazy').setup {
   require 'plugins.noice',
   require 'plugins.markdown_preview',
   require 'plugins.linting',
+  require 'plugins.nvim-jdtls',
 }

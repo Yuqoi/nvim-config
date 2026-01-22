@@ -4,10 +4,10 @@ return {
   event = 'BufRead',
   branch = 'main',
   build = ':TSUpdate',
-  ---@class TSConfig
   init = function()
     vim.env.CC = 'gcc'
   end,
+  ---@class TSConfig
   opts = {
     ensure_installed = {
       'astro',
@@ -22,6 +22,7 @@ return {
       'graphql',
       'html',
       'javascript',
+      'java',
       'jsdoc',
       'json',
       'json5',
@@ -41,6 +42,9 @@ return {
       'yaml',
       'ruby',
     },
+    auto_install = true,
+    highlight = { enable = true },
+    indent = { enable = true },
   },
   config = function(_, opts)
     -- install parsers from custom opts.ensure_installed
