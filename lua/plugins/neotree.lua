@@ -6,7 +6,21 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
-    '3rd/image.nvim', -- Optional image support in preview window: See `# Preview Mode` for more information
+    {
+      "3rd/image.nvim",
+      -- don't let it break your config if luarocks/lua isn't present yet
+ dependencies = { "nvim-lua/plenary.nvim" },
+  config = function()
+    require("image").setup({
+      backend = "ueberzug",   -- this is the ueberzugpp backend name
+      processor = "magick_cli", -- avoids LuaRocks magick rock; uses ImageMagick CLI
+      integrations = {
+        neotree = { enabled = true },
+      },
+    })
+  end   },
+
+-- Optional image support in preview window: See `# Preview Mode` for more information
     {
       's1n7ax/nvim-window-picker',
       version = '2.*',

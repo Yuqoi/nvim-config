@@ -1,23 +1,42 @@
 return {
   'mfussenegger/nvim-jdtls',
   ft = { 'java' },
+  dependencies = {
+    {
+      'elmcgill/springboot-nvim',
+      config = function()
+        local springboot_nvim = require 'springboot-nvim'
+        vim.keymap.set('n', '<leader>Jr', springboot_nvim.boot_run, { desc = 'Spring Boot Run Project' })
+        vim.keymap.set('n', '<leader>Jc', springboot_nvim.generate_class, { desc = 'Java Create Class' })
+        vim.keymap.set('n', '<leader>Ji', springboot_nvim.generate_interface, { desc = 'Java Create Interface' })
+        vim.keymap.set('n', '<leader>Je', springboot_nvim.generate_enum, { desc = 'Java Create Enum' })
+        springboot_nvim.setup {}
+      end,
+    },
+  },
   config = function()
     local jdtls = require 'jdtls'
 
     local home = vim.env.HOME
     local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-    local workspace_dir = home .. '\\AppData\\Local\\nvim-data\\jdtls-workspace\\' .. project_name
+
+    -- local workspace_dir = home .. '\\AppData\\Local\\nvim-data\\jdtls-workspace\\' .. project_name
+    local workspace_dir = home .. '/.local/share/nvim/jdtls-workspace/' .. project_name
 
     local config = {
 
       cmd = {
-        'C:\\PROGRA~1\\Java\\jdk-22\\bin\\java',
+        '/opt/jdk-22/bin/java',
+        -- 'C:\\PROGRA~1\\Java\\jdk-22\\bin\\java',
         '-Declipse.application=org.eclipse.jdt.ls.core.id1',
         '-Dosgi.bundles.defaultStartLevel=4',
         '-Declipse.product=org.eclipse.jdt.ls.core.product',
         '-Dlog.protocol=true',
         '-Dlog.level=ALL',
-        '-javaagent:' .. home .. '\\AppData\\Local\\nvim-data\\nvim-java\\packages\\lombok\\1.18.42\\lombok-1.18.42.jar',
+        -- '-javaagent:' .. home .. '\\AppData\\Local\\nvim-data\\nvim-java\\packages\\lombok\\1.18.42\\lombok-1.18.42.jar',
+        '-javaagent:'
+          .. home
+          .. '/.local/share/nvim/mason/share/lombok-nightly/lombok.jar',
         '-Xmx4g',
         '--add-modules=ALL-SYSTEM',
         '--add-opens',
@@ -27,9 +46,11 @@ return {
 
         -- Eclipse jdtls location
         '-jar',
-        home .. '\\AppData\\Local\\nvim-data\\mason\\share\\jdtls\\plugins\\org.eclipse.equinox.launcher.jar',
+        -- home .. '\\AppData\\Local\\nvim-data\\mason\\share\\jdtls\\plugins\\org.eclipse.equinox.launcher.jar',
+        home .. '/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher.jar',
         '-configuration',
-        home .. '\\AppData\\Local\\nvim-data\\mason\\packages\\jdtls\\config_win',
+        -- home .. '\\AppData\\Local\\nvim-data\\mason\\packages\\jdtls\\config_win',
+        home .. '/.local/share/nvim/mason/packages/jdtls/config_linux',
         '-data',
         workspace_dir,
       },
@@ -37,7 +58,8 @@ return {
       settings = {
         java = {
           -- TODO Replace this with the absolute path to your main java version (JDTLS requires JDK 21 or higher)
-          home = 'C:\\PROGRA~1\\Java\\jdk-22',
+          -- home = 'C:\\PROGRA~1\\Java\\jdk-22',
+          home = '/opt/jdk-22',
           eclipse = {
             downloadSources = true,
           },
@@ -46,18 +68,20 @@ return {
             -- TODO Update this by adding any runtimes that you need to support your Java projects and removing any that you don't have installed
             -- The runtimes' name parameter needs to match a specific Java execution environments.  See https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request and search "ExecutionEnvironment".
             runtimes = {
-              {
-                name = 'JavaSE-21',
-                path = 'C:\\PROGRA~1\\Java\\jdk21',
-              },
-              {
-                name = 'JavaSE-25',
-                path = 'C:\\PROGRA~1\\Java\\jdk-25',
-              },
-              {
-                name = 'JavaSE-22',
-                path = 'C:\\PROGRA~1\\Java\\jdk-22',
-              },
+              { name = 'JavaSE-22', path = '/opt/jdk-22' },
+              { name = 'JavaSE-25', path = '/opt/jdk-25' },
+              -- {
+              --   name = 'JavaSE-21',
+              --   path = 'C:\\PROGRA~1\\Java\\jdk21',
+              -- },
+              -- {
+              --   name = 'JavaSE-25',
+              --   path = 'C:\\PROGRA~1\\Java\\jdk-25',
+              -- },
+              -- {
+              --   name = 'JavaSE-22',
+              --   path = 'C:\\PROGRA~1\\Java\\jdk-22',
+              -- },
             },
           },
           maven = {

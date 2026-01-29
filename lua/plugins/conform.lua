@@ -16,7 +16,7 @@ return {
       -- You can also customize some of the format options for the filetype
       python = { 'ruff_format', 'ruff' },
       -- Use the "*" filetype to run formatters on all filetypes.
-      ['*'] = { 'codespell' },
+      -- ['*'] = { 'codespell' },
       -- Use the "_" filetype to run formatters on filetypes that don't
       -- have other formatters configured.
       ['_'] = { 'trim_whitespace' },
